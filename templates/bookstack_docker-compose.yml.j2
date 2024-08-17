@@ -7,13 +7,12 @@ services:
       - PUID="{{ BOOKSTACK_PUID }}"
       - PGID="{{ BOOKSTACK_PGID }}"
       - TZ="{{ BOOKSTACK_TIMEZONE }}"
-      - APP_URL=https://bookstack.example.com
       - DB_HOST=bookstack_db
       - DB_PORT=3306
       - DB_USER="{{ BOOKSTACK_DATABASE_ENV_MARIADB_USER }}"
       - DB_PASS="{{ BOOKSTACK_DATABASE_ENV_MARIADB_PASSWORD }}"
       - DB_DATABASE=bookstackapp
-      - APP_URL="{{ BOOKSTACK_FQDN }}"
+      - APP_URL="http://{{ BOOKSTACK_FQDN }}"
     volumes:
       - '{{ BOOKSTACK_PATH }}/volumes/bookstack-config:/config:z'
     ports:
