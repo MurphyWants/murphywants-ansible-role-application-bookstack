@@ -1,0 +1,7 @@
+---
+  - name: Create bookstack ZFS volume
+    community.general.zfs:
+      name: "{{ BOOKSTACK_STORAGE_ZFS_POOL }}/{{ BOOKSTACK_STORAGE_ZFS_FS }}"
+      state: present
+      extra_zfs_properties:
+        mountpoint: "{{ BOOKSTACK_PATH }}"

@@ -1,0 +1,49 @@
+---
+  - name: Create folders
+    ansible.builtin.file:
+      path: "{{ item }}"
+      state: directory
+    loop:
+      - "{{ BOOKSTACK_PATH }}"
+      - "{{ BOOKSTACK_PATH }}/volumes"
+      - "{{ BOOKSTACK_PATH }}/volumes/database-config"
+      - "{{ BOOKSTACK_PATH }}/volumes/bookstack-config"
+      - "{{ BOOKSTACK_PATH }}/backups"
+      - "{{ BOOKSTACK_PATH }}/backups/database"
+      - "{{ BOOKSTACK_PATH }}/backups/tarballs"
+      - "{{ BOOKSTACK_PATH }}/backups/logs"
+      - "{{ BOOKSTACK_PATH }}/scripts"
+      - "{{ BOOKSTACK_PATH }}/docs"
+
+
+  - name: Copy docker compose file
+    ansible.builtin.template:
+      src: "{{ role_path }}/templates/BOOKSTACK_docker-compose.yml.j2"
+      dest: "{{ BOOKSTACK_PATH }}/docs/docker-compose.yml"
+
+  - name: Install nginx
+    ansible.builtin.package:
+      name: nginx
+      state: 'latest'
+
+  - name: Install sqlite3
+    ansible.builtin.package:
+      name: sqlite3
+
+  #- name: Copy dump database scripts
+  #  ansible.builtin.template:
+  #    src: "{{ role_path }}/templates/backup_bookstack.sh.j2"
+  #    dest: "{{ BOOKSTACK_PATH }}/scripts/backup_bookstack.sh"
+  #    mode: "0700"
+#
+  #- name: Create cronjob to run database dump script daily at 10pm
+  #  ansible.builtin.cron:
+  #    backup: true
+  #    hour: 22
+  #    minute: 0
+  #    job: "bash {{ BOOKSTACK_PATH }}/scripts/backup_bookstack.sh -n 30"
+  #    name: "bookstack - Dump Databases"
+  #    state: "present"
+      
+# TODO If selinux, flip selinux booleans
+

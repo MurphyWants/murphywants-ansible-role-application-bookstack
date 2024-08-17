@@ -1,0 +1,40 @@
+server {
+    listen       80;
+    listen       [::]:80;
+    server_name bookstack {{ BOOKSTACK_FQDN }};
+  
+    access_log /var/log/nginx/bookstack.80.{{ BOOKSTACK_FQDN }}.access.log;
+    error_log /var/log/nginx/bookstack.80.{{ BOOKSTACK_FQDN }}.error.log;
+  
+    #location / {
+    #  proxy_pass "http://localhost:{{ BOOKSTACK_HTTP_PORT }}";
+    #  proxy_set_header Host $http_host;
+    #  proxy_set_header X-Real-IP $remote_addr;
+    #  proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    #  proxy_set_header X-Forwarded-Proto $scheme;
+    #}
+  
+    return 301 https://{{ BOOKSTACK_FQDN }}$request_uri;
+  
+  }
+  
+  server {
+    listen       443;
+    listen       [::]:443;
+    server_name {{ BOOKSTACK_FQDN }};
+    ssl on;
+    ssl_certificate {{ BOOKSTACK_SSL_CERT_PATH }};
+    ssl_certificate_key {{ BOOKSTACK_SSL_KEY_PATH }};
+  
+    access_log /var/log/nginx/bookstack.443.{{ BOOKSTACK_FQDN }}.access.log;
+    error_log /var/log/nginx/bookstack.443.{{ BOOKSTACK_FQDN }}.error.log;
+  
+    location / {
+      proxy_pass "https://localhost:{{ BOOKSTACK_HTTP_PORT }}";
+      proxy_set_header Host $http_host;
+      proxy_set_header X-Real-IP $remote_addr;
+      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+      proxy_set_header X-Forwarded-Proto $scheme;
+    }
+  
+  }
