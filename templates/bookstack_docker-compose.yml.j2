@@ -4,13 +4,13 @@ services:
     image: 'lscr.io/linuxserver/bookstack:{{ BOOKSTACK_CONTAINER_VERSION }}'
     container_name: bookstack
     environment:
-      - PUID="{{ BOOKSTACK_PUID }}"
-      - PGID="{{ BOOKSTACK_PGID }}"
-      - TZ="{{ BOOKSTACK_TIMEZONE }}"
+      - PUID={{ BOOKSTACK_PUID }}
+      - PGID={{ BOOKSTACK_PGID }}
+      - TZ={{ BOOKSTACK_TIMEZONE }}
       - DB_HOST=bookstack_db
       - DB_PORT=3306
-      - DB_USER="{{ BOOKSTACK_DATABASE_ENV_MARIADB_USER }}"
-      - DB_PASS="{{ BOOKSTACK_DATABASE_ENV_MARIADB_PASSWORD }}"
+      - DB_USER={{ BOOKSTACK_DATABASE_ENV_MARIADB_USER }}
+      - DB_PASS={{ BOOKSTACK_DATABASE_ENV_MARIADB_PASSWORD }}
       - DB_DATABASE=bookstackapp
       - APP_URL="https://{{ BOOKSTACK_FQDN }}"
     volumes:
@@ -32,11 +32,11 @@ services:
     environment:
       - PUID={{ BOOKSTACK_PUID }}
       - PGID={{ BOOKSTACK_PGID }}
-      - TZ="{{ BOOKSTACK_TIMEZONE }}"
-      - MYSQL_ROOT_PASSWORD="{{ BOOKSTACK_DATABASE_ENV_MARIADB_ROOT_PASSWORD }}"
+      - TZ={{ BOOKSTACK_TIMEZONE }}
+      - MYSQL_ROOT_PASSWORD={{ BOOKSTACK_DATABASE_ENV_MARIADB_ROOT_PASSWORD }}
       - MYSQL_DATABASE=bookstackapp
-      - MYSQL_USER="{{ BOOKSTACK_DATABASE_ENV_MARIADB_USER }}"
-      - MYSQL_PASSWORD="{{ BOOKSTACK_DATABASE_ENV_MARIADB_PASSWORD }}"
+      - MYSQL_USER={{ BOOKSTACK_DATABASE_ENV_MARIADB_USER }}
+      - MYSQL_PASSWORD={{ BOOKSTACK_DATABASE_ENV_MARIADB_PASSWORD }}
     volumes:
       - "{{ BOOKSTACK_PATH }}/volumes/database-config:/config:z"
     restart: unless-stopped

@@ -1,1 +1,8 @@
-#placeholder
+---
+  - name: Restart bookstack
+    community.docker.docker_compose:
+      project_src: "{{ BOOKSTACK_PATH }}/docs"
+      files: "docker-compose.yml"
+      state: present
+      restarted: true
+      
